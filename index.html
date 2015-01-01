@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Michael Rose</title>
+  <style type="text/css">
+    html {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+    }
+    body {
+      width: 40em;
+      text-align: center;
+      font-family: sans-serif;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    #llamas {
+      width: 50%;
+      margin-left: auto;
+      margin-right: auto;
+      padding: 10px;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Michael Rose</h1>
+  <div id="llamas">
+    <p>Under construction</p>
+  </div>
+  <script type="text/javascript">
+    function randHex(max) {
+      max = max || parseInt("FFFFFF", 16);
+      var hexVal = parseInt(Math.random() * max + 1).toString(16);
+      while(hexVal.length < 6) {
+        hexVal = "0" + hexVal;
+      }
+      return "#" + hexVal;
+    }
+
+    var llamas = document.getElementById("llamas");
+    var maxHex = parseInt("FFFFFF", 16);
+    var changeColors = function() {
+      llamas.style.color = randHex(maxHex);
+      llamas.style.backgroundColor = randHex(maxHex);
+    };
+    changeColors();
+    setInterval(changeColors, 1000);
+  </script>
+</body>
+</html>
