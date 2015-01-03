@@ -42,6 +42,10 @@
     },
     "contact": {
       url: "contact.html"
+    },
+    "": {
+      url: "blog.html",
+      onReady: populateBlogPreviews
     }
   };
 
