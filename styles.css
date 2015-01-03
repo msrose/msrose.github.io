@@ -1,0 +1,52 @@
+html {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+body {
+  width: 50em;
+  min-width: 50em;
+  font-family: "Segoe UI", sans-serif;
+  margin-left: auto;
+  margin-right: auto;
+  border-left: 1px solid gray;
+  border-right: 1px solid gray;
+  padding-left: 1em;
+  padding-right: 1em;
+}
+
+h1 {
+  margin: 0;
+  padding: 0;
+}
+
+h2 {
+  margin: 0;
+  padding: 0;
+}
+
+nav {
+  overflow: hidden;
+}
+
+nav ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+nav li {
+  float: left;
+  display: block;
+  margin-right: 1em;
+}
+
+nav a {
+  text-decoration: none;
+  color: gray;
+}
+
+nav a:hover {
+  color: black;
+}
