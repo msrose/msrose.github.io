@@ -8,12 +8,10 @@ body {
   width: 50em;
   min-width: 50em;
   font-family: "Segoe UI", sans-serif;
-  margin-left: auto;
-  margin-right: auto;
-  border-left: 1px solid gray;
-  border-right: 1px solid gray;
-  padding-left: 1em;
-  padding-right: 1em;
+  margin: 0 auto;
+  padding: 0 1em;
+  border-left: 1px solid lightgray;
+  border-right: 1px solid lightgray;
 }
 
 h1 {
@@ -21,24 +19,23 @@ h1 {
   padding: 0;
 }
 
-h2 {
-  margin: 0;
-  padding: 0;
+header h1 {
+  display: inline-block;
+  margin-right: 1em;
 }
 
-nav {
-  overflow: hidden;
+header nav {
+  display: inline-block;
 }
 
-nav ul {
+header nav ul {
   list-style-type: none;
   margin: 0;
   padding: 0;
 }
 
-nav li {
-  float: left;
-  display: block;
+header nav li {
+  display: inline;
   margin-right: 1em;
 }
 
