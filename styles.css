@@ -127,6 +127,15 @@ section.project img {
 #ddLiveDemo {
   height: 100px;
   width: 100px;
+}
+
+.demo-caption {
+  text-align: center;
+  font-weight: bold;
+  margin-top: 0.5em;
+}
+
+.demo-wrapper {
   float: left;
   margin: 1em 1em 1em 0;
 }
