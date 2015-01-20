@@ -32,21 +32,33 @@
     });
   }
 
+  function createDragDropDemo() {
+    dragdrop.create({
+      numSquares: 64,
+      squareSize: 25,
+      randomColors: parseInt(Math.random() * 10) + 2,
+      border: { size: 1, color: "none" },
+      snapToGrid: true,
+      autoFill: "*x*",
+      showNumbering: false
+    }).draw("ddLiveDemo");
+  }
+
+  var defaultUrl = {
+      url: "projects.html",
+      onReady: createDragDropDemo
+  };
+
   var routes = {
     "blog": {
       url: "blog.html",
       onReady: populateBlogPreviews
     },
-    "projects": {
-      url: "projects.html",
-    },
+    "projects": defaultUrl,
     "contact": {
       url: "contact.html"
     },
-    "": {
-      url: "blog.html",
-      onReady: populateBlogPreviews
-    }
+    "": defaultUrl
   };
 
   for(var i = 1; i <= numPosts; i++) {
