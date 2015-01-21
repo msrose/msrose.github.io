@@ -34,8 +34,8 @@
 
   function createDragDropDemo() {
     dragdrop.create({
-      numSquares: 64,
-      squareSize: 25,
+      numSquares: 25,
+      squareSize: 50,
       randomColors: parseInt(Math.random() * 10) + 2,
       border: { size: 1, color: "none" },
       snapToGrid: true,
