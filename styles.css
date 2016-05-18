@@ -68,7 +68,7 @@ nav a:hover {
 }
 
 article.blog-entry {
-  padding: 1em 7em 0.25em 7em;
+  padding: 1em 0em 0.25em;
 }
 
 article.blog-entry p, article.blog-entry li {
@@ -116,7 +116,7 @@ section.project h1 a:hover {
 section.project img {
   float: left;
   width: 350px;
-  height: 225px;
+  height: auto;
   max-width: 100%;
   margin: 1em 1em 1em 0;
   border: 1px solid lightgray;
@@ -124,13 +124,10 @@ section.project img {
   @media(max-width: 600px) {
     float: none;
   }
-  @media(max-width: 350px) {
-    height: auto;
-  }
 }
 
 section.project img.promises-aplus {
-  width: auto;
+  width: 150px;
   border-radius: 0;
   border: none;
 }
