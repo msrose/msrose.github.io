@@ -120,6 +120,12 @@ section.project img {
   border-radius: 1em;
 }
 
+section.project img.promises-aplus {
+  width: auto;
+  border-radius: 0;
+  border: none;
+}
+
 .muted {
   font-size: 0.75em;
 }
