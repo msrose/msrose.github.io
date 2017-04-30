@@ -1,5 +1,5 @@
 (function($) {
-  var numPosts = 3;
+  var numPosts = 4;
 
   function getPostQuery(id) {
     return $.ajax({
