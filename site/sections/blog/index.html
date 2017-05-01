@@ -1,0 +1,13 @@
+{% extends 'index.html' %}
+
+{% block contents %}
+<div id="blog_previews">
+  {% for post in postMetadata %}
+  <article class="blog-entry">
+    <h1>{{ post.title }}</h1>
+    <div class="date">{{ post.dateString }} by {{ post.author }}</div>
+    <p>{{ post.preview | safe }} <a href="{{ post.slug }}">Read more</a></p>
+  </article>
+  {% endfor %}
+</div>
+{% endblock %}
