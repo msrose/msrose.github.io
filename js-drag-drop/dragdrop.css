@@ -1,0 +1,6 @@
+.dragdrop.square {
+  position: absolute;
+  cursor: move;
+  text-align: center;
+  font-family: sans-serif;
+}
