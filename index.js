@@ -61,8 +61,8 @@ Promise.all([
             const postSlug = slug(meta.title);
             const postPath = path.join(buildDir, section, postSlug);
             meta.slug = postSlug;
-            meta.dateString = moment(meta.date).format('MMMM Do, YYYY'),
-            meta.preview = html.substr(0, 250) + '...';
+            meta.dateString = moment(meta.date).format('MMMM Do, YYYY');
+            meta.preview = html.substr(0, html.indexOf('</p>') + '</p>'.length) + '...';
             postMetadata.push(meta);
             const contents = nunjucks.render(
               path.join(sectionDir, section, 'template.html'),
