@@ -78,8 +78,8 @@ Promise.all([
                 }
               });
             });
+            createIndexFile();
           }).catch((err) => console.error(err));
-          createIndexFile();
         });
       }
     });
