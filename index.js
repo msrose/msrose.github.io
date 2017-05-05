@@ -1,5 +1,5 @@
 const marked = require('meta-marked');
-const { highlightAuto } = require('highlight.js');
+const { highlight } = require('highlight.js');
 const fs = require('fs-extra');
 const slug = require('slug');
 const path = require('path');
@@ -9,7 +9,16 @@ const moment = require('moment');
 nunjucks.configure('site');
 
 marked.setOptions({
-  highlight: (code) => highlightAuto(code).value
+  highlight: (code, lang) => {
+    if(lang) {
+      try {
+        return highlight(lang, code, true).value;
+      } catch (e) {
+        return code;
+      }
+    }
+    return code;
+  }
 });
 
 const siteDir = './site';
@@ -62,7 +71,7 @@ Promise.all([
             const postPath = path.join(buildDir, section, postSlug);
             meta.slug = postSlug;
             meta.dateString = moment(meta.date).format('MMMM Do, YYYY');
-            meta.preview = html.substr(0, html.indexOf('</p>') + '</p>'.length) + '...';
+            meta.preview = html.substr(0, html.indexOf('</p>')) + '...</p>';
             postMetadata.push(meta);
             const contents = nunjucks.render(
               path.join(sectionDir, section, 'template.html'),
