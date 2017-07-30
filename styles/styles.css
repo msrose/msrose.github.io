@@ -71,7 +71,10 @@ article.blog-entry {
   padding: 1em 2em 0.25em;
   font-size: 1.1em;
   line-height: 1.6;
-  @media(max-width: 650px) {
+}
+
+@media(max-width: 650px) {
+  article.blog-entry {
     padding-left: 0;
     padding-right: 0;
   }
