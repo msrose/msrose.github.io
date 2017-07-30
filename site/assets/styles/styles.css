@@ -94,12 +94,12 @@ article.blog-entry li {
   margin-bottom: 1em;
 }
 
-article.blog-entry p a, article.blog-entry li a, section.project p a, #content p a {
+article.blog-entry p a, article.blog-entry li a, section.project p a, #content p a, .blog-footer a {
   color: dodgerblue;
   text-decoration: none;
 }
 
-article.blog-entry p a:hover, article.blog-entry li a:hover, section.project p a:hover, #content p a:hover {
+article.blog-entry p a:hover, article.blog-entry li a:hover, section.project p a:hover, #content p a:hover, .blog-footer a {
   color: magenta;
 }
 
@@ -197,4 +197,10 @@ article.blog-entry pre {
   overflow-x: auto;
   line-height: 1.45;
   margin-bottom: 1.5em;
+}
+
+.blog-footer {
+  text-align: center;
+  font-size: 0.9em;
+  color: #858585;
 }
