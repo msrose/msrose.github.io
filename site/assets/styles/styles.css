@@ -68,17 +68,23 @@ nav a:hover {
 }
 
 article.blog-entry {
-  padding: 1em 0em 0.25em;
+  padding: 1em 2em 0.25em;
+  font-size: 1.1em;
+  line-height: 1.6;
+  @media(max-width: 650px) {
+    padding-left: 0;
+    padding-right: 0;
+  }
 }
 
 article.blog-entry p, article.blog-entry li {
   text-align: justify;
   text-justify: inter-word;
-  line-height: 1.5em;
 }
 
 article.blog-entry p {
   text-indent: 2em;
+  margin-bottom: 1.25em;
 }
 
 article.blog-entry li {
@@ -92,6 +98,14 @@ article.blog-entry p a, article.blog-entry li a, section.project p a, #content p
 
 article.blog-entry p a:hover, article.blog-entry li a:hover, section.project p a:hover, #content p a:hover {
   color: magenta;
+}
+
+article.blog-entry h1 {
+  margin-bottom: 10px;
+}
+
+article.blog-entry .date {
+  font-size: 0.8em;
 }
 
 section.project {
@@ -155,9 +169,29 @@ section.project img.promises-aplus {
 a.github-mark img {
   height: 40px;
   width: auto;
-  margin-top: 5px;
+  margin-top: 1px;
 }
 
 a.github-mark {
   float: right;
+}
+
+article.blog-entry blockquote {
+  border-left: 5px solid #e5e5e5;
+  padding-left: 15px;
+  color: #858585;
+  margin-bottom: 1.25em;
+}
+
+article.blog-entry blockquote p {
+  text-indent: 0 !important;
+}
+
+article.blog-entry pre {
+  background-color: #f6f8fa;
+  border-radius: 5px;
+  padding: 16px;
+  overflow-x: auto;
+  line-height: 1.45;
+  margin-bottom: 1.5em;
 }
