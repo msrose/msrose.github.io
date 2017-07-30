@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+  
+  <title>Fun with Array.prototype.push() - Michael Rose</title>
+  
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="stylesheet" href="/styles/styles.css"/>
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-73693150-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+  
+<link rel="stylesheet" type="text/css" href="/styles/tomorrow.css">
+
+</head>
+<body>
+  <header>
+    <a href="https://github.com/msrose" class="github-mark"><img src="/images/GitHub-Mark-120px-plus.png" alt="GitHub"></a>
+    <h1>Michael Rose</h1>
+    <nav>
+      <ul>
+        <li><a href="/projects">Projects</a></li>
+        <li><a href="/blog">Blog</a></li>
+        <li><a href="/contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+  <section id="content">
+  
+<article class="blog-entry">
+  <h1>Fun with Array.prototype.push()</h1>
+  <div class="date">July 29th, 2017 by Michael Rose</div>
+  <p>At work last week, I wrote some JavaScript where I was expecting <a href="https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Array/push">Array.prototype.push()</a> to return the array back to me. I&#39;m pretty sure I&#39;ve made this mistake before &mdash; but it&#39;s not a hard bug to find once you remember that push actually returns the new array length:</p>
+<pre><code class="lang-javascript">x = [<span class="hljs-string">'sup'</span>, <span class="hljs-string">'dawg'</span>]
+x.push(<span class="hljs-string">'swagger'</span>) <span class="hljs-comment">// returns 3</span>
+<span class="hljs-built_in">console</span>.log(x) <span class="hljs-comment">// prints ['sup', 'dawg', 'swagger']</span>
+</code></pre>
+<p>If you want an array back, you just have to use <a href="https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Array/push">Array.prototype.concat()</a>, although it&#39;s important to note that this array is a shallow copy of the one that you call <code>.concat()</code> on:</p>
+<pre><code class="lang-javascript">x = [<span class="hljs-string">'sup'</span>, <span class="hljs-string">'dawg'</span>]
+x.concat(<span class="hljs-string">'swagger'</span>) <span class="hljs-comment">// returns ['sup', 'dawg', 'swagger']</span>
+<span class="hljs-built_in">console</span>.log(x) <span class="hljs-comment">// prints ['sup', 'dawg']</span>
+</code></pre>
+<p>But this got me thinking: why <em>does</em> Array.prototype.push() return the length of the array? I mean, you&#39;ve got Array.prototype.length for a reason. On multiple occasions, I&#39;ve forgotten what push actually returns to you, so it&#39;s obvious that it doesn&#39;t make intuitive sense to me why push returns the array length. I can&#39;t recall ever actually using the return value of push for anything &mdash; I&#39;d just use the length property. So I ventured to the <a href="https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Array/push">MDN page for push</a> to see if it could shed any light on the reasons for push&#39;s API.</p>
+<p>I&#39;ll save you a click and say that it offers no particular insight into the historical decisions behind the API &mdash; just the standard description for the return value:</p>
+<blockquote>
+<p>Return Value: The new length property of the object upon which the method was called.</p>
+</blockquote>
+<p>I read on for a bit and did find some intriguing things in the description section:</p>
+<blockquote>
+<p>push is intentionally generic. This method can be used with call() or apply() on objects resembling arrays.</p>
+</blockquote>
+<p>This part is pretty standard &mdash; array methods are generic for things like performing operations on <code>arguments</code> objects. The use-case that is foremost in my mind is writing <code>argsArray = [].slice.call(arguments)</code> to create an array from an arguments object, which was more useful before the <a href="http://babeljs.io/learn-es2015/#ecmascript-2015-features-default-rest-spread">ES2015 rest operator</a> became commonplace.</p>
+<p>The second part of the description also makes sense:</p>
+<blockquote>
+<p>The push method relies on a length property to determine where to start inserting the given values.</p>
+</blockquote>
+<p>Push uses the array&#39;s length to determine where to put the new elements. This fact does let you do some quirky stuff, like:</p>
+<pre><code class="lang-javascript">x = []
+x.length = <span class="hljs-number">4</span>
+x.push(<span class="hljs-string">'sup'</span>)
+<span class="hljs-built_in">console</span>.log(x); <span class="hljs-comment">// prints [,,,,'sup']</span>
+</code></pre>
+<p>Here, you end up with empty values in your array (not <code>undefined</code> values, but <em>empty</em> ones that methods like map and forEach will <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach#Printing_the_contents_of_an_array">skip over</a>), which is a bit strange, but nothing too mind-bending.</p>
+<p>The last part of the description is what really intrigued me:</p>
+<blockquote>
+<p>If the length property cannot be converted into a number, the index used is 0. This includes the possibility of length being nonexistent, in which case length will also be created.</p>
+</blockquote>
+<p>At first, this made me wonder if you can have an array with a non-numeric length. So I fired up my browser console and tried:</p>
+<pre><code>x = []
+x.length = &#39;sup dawg&#39;
+VM139:1 Uncaught RangeError: Invalid array length
+    at &lt;anonymous&gt;:1:9
+</code></pre><p>Sweet, no surprise there really. The browser basically says &quot;Why on God&#39;s green earth would you do such a thing to a poor wee array? The length property is the only thing keeping it sane!&quot; (Yes, the Chrome developer console is Scottish.)</p>
+<p>But then why does the description for Array.prototype.push() talk about non-numeric and non-existent lengths? As it turns out, it has to do with the very first part of the description: push is generic and can operate on array-like objects. And since all arrays are objects, <em>objects</em> are array-like objects. So using objects, you can find out what push does with a non-numeric length value:</p>
+<pre><code class="lang-javascript">x = { <span class="hljs-attr">length</span>: <span class="hljs-string">'sup dawg'</span>, <span class="hljs-number">0</span>: <span class="hljs-string">'brother'</span>, <span class="hljs-number">1</span>: <span class="hljs-string">'sister'</span>, <span class="hljs-number">2</span>: <span class="hljs-string">'father'</span> }
+[].push.call(x, <span class="hljs-string">'mother'</span>)
+<span class="hljs-built_in">console</span>.log(x) <span class="hljs-comment">// prints { length: 0, 0: 'mother', 1: 'sister', 2: 'father' }</span>
+</code></pre>
+<p>Say whaaaaaaaat? I had a good laugh at this behaviour, for no particular reason other than that JavaScript and its idiosyncrasies can be funny if you&#39;re in the right mood. Yes indeed, push behaves exactly as MDN states: if the length property of the array-like can&#39;t be coerced to a number, it uses the index 0 to decide where to put the new element. In the example above, it actually ends up overwriting the value of the 0 property on the x object. Pretty funky stuff.</p>
+<p>After reading the push docs a bit more, MDN actually has a <a href="https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Array/push#Using_an_object_in_an_array-like_fashion">more sane example</a> of where you might find the generic behaviour of push useful:</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> obj = {
+    <span class="hljs-attr">length</span>: <span class="hljs-number">0</span>,
+
+    <span class="hljs-attr">addElem</span>: <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">addElem</span>(<span class="hljs-params">elem</span>) </span>{
+        <span class="hljs-comment">// obj.length is automatically incremented</span>
+        <span class="hljs-comment">// every time an element is added.</span>
+        [].push.call(<span class="hljs-keyword">this</span>, elem);
+    }
+};
+
+<span class="hljs-comment">// Let's add some empty objects just to illustrate.</span>
+obj.addElem({});
+obj.addElem({});
+<span class="hljs-built_in">console</span>.log(obj.length);
+<span class="hljs-comment">// → 2</span>
+</code></pre>
+<p>But I still struggle to think of a practical example where you&#39;d want to do this to an object, instead of just using something like an array member of an abstract data type. What&#39;s that old adage? Write code for humans first, computers second. (Although that&#39;s usually in reference to performance.)</p>
+<p>So we&#39;ve come all this way through the docs for push, and we&#39;ve learned some interesting stuff, but we still lack answers to the original question: why does push return the array length? Is there any canonical rationale behind this return value? I&#39;m not about to claim that returning the mutated array is hands-down a better API, and there&#39;s no point in getting angry about it either &mdash; push&#39;s API is here to stay, and we have concat for most use-cases anyway. At this point, I&#39;m just curious about the original design choice.</p>
+<p>I&#39;ll think about the problem a bit more myself, maybe go digging into the ECMAScript spec, maybe eventually tweet at <a href="https://twitter.com/BrendanEich">Brendan Eich</a> or someone else who could shed some light. If I discover any groundbreaking revelations I&#39;ll be sure to make a follow up post. Because who doesn&#39;t love reading about Array.prototype.push?</p>
+
+</article>
+
+  </section>
+</body>
+</html>
