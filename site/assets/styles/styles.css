@@ -21,10 +21,11 @@ h1 {
 }
 
 header {
-  background-color: lightgray;
-  padding: 0 1em 0.5em 1em;
+  background-color: #012766;
+  padding: 0.5em 1em 0.5em 1em;
   margin: 0;
   font-variant: small-caps;
+  color: #e1e9f7;
 }
 
 header h1 {
@@ -52,7 +53,7 @@ header nav li {
 
 nav a {
   text-decoration: none;
-  color: gray;
+  color: #e1e9f7;
 }
 
 nav a:hover {
